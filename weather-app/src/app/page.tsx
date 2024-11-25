@@ -40,55 +40,8 @@ export default function Home() {
    }, []);
 
    return (
-      <div className="bg-black text-white w-[1000px] h-[1000px] flex flex-col justify-between p-5 rounded-2xl">
-         <div className="flex justify-between text-white">
-            <div>Weather Dashboard</div>
-            <div>2024</div>
-         </div>
-         <div className="w-full flex justify-center items-center">
-            <div className="w-[850px] h-[850px] bg-white rounded-3xl text-black p-2 flex">
-               <div className="w-1/4 bg-red-500 p-2 flex flex-col items-center space-y-6">
-                  <input
-                     className="px-2 bg-black w-32"
-                     placeholder="Search city..."
-                     type="text"
-                  />
-                  <div className="text-2xl">
-                     <div className="">
-                      <div>{weatherData?.name}</div>
-                        <div className="flex justify-between">
-                           <div>{weatherData?.main.temp}&#8457;</div>
-                           <div>+/- 5</div>
-                        </div>
-                        <div className="flex justify-between text-base text-xs">
-                           <div>{weatherData?.main.temp_max}&#8457;</div>
-                           <div>{weatherData?.main.temp_min}&#8457;</div>
-                        </div>
-                     </div>
-                     <div className="flex flex-col justify-center items-center text-sm">
-                        <div>Humidity: {weatherData?.main.humidity}%</div>
-                        <div>
-                           Wind: {ConvertWindDirection(weatherData?.wind.deg)} {weatherData?.wind.speed} mph
-                        </div>
-                        <div>Visibility: {weatherData?.visibility}m</div>
-                     </div>
-                  </div>
-                  <div className="h-[150px] flex flex-col justify-center items-center">
-                     <img
-                        className="h-20"
-                        src={iconURL}
-                        alt=""
-                     />
-                     <div>{weatherData?.weather[0].main}</div>
-                  </div>
-               </div>
-               <div className="w-3/4 bg-blue-500">Main stuff</div>
-            </div>
-         </div>
-         <div className="flex justify-between">
-            <div>{weatherData?.main.temp}&#8457;</div>
-            <div>{weatherData?.name}</div>
-         </div>
+      <div className="bg-black h-screen w-screen">
+        
       </div>
    );
 }
