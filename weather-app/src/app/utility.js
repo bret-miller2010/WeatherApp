@@ -36,3 +36,10 @@ export const ConvertWindDirection = (degree) => {
       return "no data";
    }
 };
+
+export const convertUnixTime = (unixTime) => {
+   const milliseconds = unixTime * 1000;
+   const dateObject = new Date(milliseconds);
+   const currentDate = dateObject.toLocaleString();
+   return currentDate;
+};
