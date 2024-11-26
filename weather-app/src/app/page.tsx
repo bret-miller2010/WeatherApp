@@ -1,8 +1,9 @@
 /** @format */
 "use client";
+import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Weather } from "./types/types";
+import { Weather, City } from "./types/types";
 import { ConvertWindDirection } from "./utility";
 import Image from "next/image";
 import { LeftWeatherInfo } from "./components/LeftWeatherInfo";
@@ -12,6 +13,7 @@ import { TopContainer } from "./components/TopContainer";
 
 export default function Home() {
    const [status, setStatus] = useState("loading");
+   const [cityList, setCityList] = useState<City[]>([]);
    const [weatherData, setWeatherData] = useState<Weather>();
    const [cityValue, setCityValue] = useState<string>("");
    const iconURL = `https://openweathermap.org/img/wn/${weatherData?.weather[0].icon}@2x.png`;
@@ -20,12 +22,24 @@ export default function Home() {
    const unsplashURL = `https://api.unsplash.com/photos/random`;
    const [backgroundImage, setBackgroundImage] = useState<string>("");
 
-   const handleSubmit = (e: any) => {
+   const createCityObject = (data: Weather) => {
+      const cityObject: City = {
+         name: data.name,
+         high: data.main.temp_max,
+         low: data.main.temp_min,
+         id: data.id,
+         icon: `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`,
+      };
+      return cityObject;
+   };
+
+   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
+      getLocationData(cityValue);
       setCityValue("");
    };
 
-   const handleChange = (e: any) => {
+   const handleChange: React.ChangeEventHandler<HTMLFormElement> = (e: React.ChangeEvent<HTMLFormElement>) => {
       setCityValue(e.target.value);
    };
 
@@ -34,7 +48,7 @@ export default function Home() {
       setBackgroundImage(data.urls.full);
    };
 
-   const getWeatherData = async (position: any) => {
+   const getWeatherData = async (position: GeolocationPosition) => {
       const lat = position.coords.latitude;
       const lon = position.coords.longitude;
       const locationURL = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`;
@@ -42,10 +56,24 @@ export default function Home() {
 
       try {
          const { data } = await axios(locationURL);
-         console.log(data);
          setWeatherData(data);
+         const cityObject = createCityObject(data);
+         setCityList([cityObject, ...cityList]);
          setStatus("waiting");
          const tester = await axios(testURL);
+         getImage(data.weather[0].main);
+      } catch {
+         setStatus("error");
+      }
+   };
+
+   const getLocationData = async (city: string) => {
+      const locationURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=imperial`;
+      try {
+         const { data } = await axios(locationURL);
+         setWeatherData(data);
+         const cityObject = createCityObject(data);
+         setCityList([cityObject, ...cityList]);
          getImage(data.weather[0].main);
       } catch {
          setStatus("error");
@@ -74,7 +102,9 @@ export default function Home() {
                      alt="Weather Icon"
                      className="rounded-xl absolute z-10"
                   />
-               ) : null}
+               ) : (
+                  <div className="h-full w-full rounded-xl absolute z-10 bg-white"></div>
+               )}
                <TopContainer
                   weatherData={weatherData}
                   handleSubmit={handleSubmit}
@@ -87,7 +117,7 @@ export default function Home() {
                      <div className="hidden p-5 rounded-xl h-[200px] w-[300px] bg-blue-500 border-2 border-black border-opacity-35">Middle</div>
                      <RightWeatherInfo weatherData={weatherData} />
                   </div>
-                  <BottomWeatherList />
+                  <BottomWeatherList cityList={cityList} />
                </div>
             </div>
          ) : (

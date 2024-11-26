@@ -3,7 +3,7 @@ import { Weather } from "../types/types";
 
 export const RightWeatherInfo = ({ weatherData }: { weatherData: Weather }) => {
    return (
-      <div className="p-5 rounded-xl w-[200px] h-[400px] bg-white bg-opacity-10 border-2 border-black border-opacity-35 flex text-base justify-between shadow-xl">
+      <div className="p-5 rounded-xl w-[200px] h-[400px] bg-white bg-opacity-50 border-2 border-black border-opacity-35 flex text-base justify-between shadow-xl">
          <div className="flex flex-col justify-between">
             <div>Visibility:</div>
             <div>Coverage:</div>
