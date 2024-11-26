@@ -4,7 +4,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Weather, City } from "./types/types";
-import { ConvertWindDirection } from "./utility";
+//import { ConvertWindDirection } from "./utility";
 import Image from "next/image";
 import { LeftWeatherInfo } from "./components/LeftWeatherInfo";
 import { RightWeatherInfo } from "./components/RightWeatherInfo";
@@ -12,11 +12,11 @@ import { BottomWeatherList } from "./components/BottomWeatherList";
 import { TopContainer } from "./components/TopContainer";
 
 export default function Home() {
-   const [status, setStatus] = useState("loading");
+   //const [status, setStatus] = useState("loading");
    const [cityList, setCityList] = useState<City[]>([]);
    const [weatherData, setWeatherData] = useState<Weather>();
    const [cityValue, setCityValue] = useState<string>("");
-   const iconURL = `https://openweathermap.org/img/wn/${weatherData?.weather[0].icon}@2x.png`;
+   // const iconURL = `https://openweathermap.org/img/wn/${weatherData?.weather[0].icon}@2x.png`;
    const unsplashAPIKey = process.env.NEXT_PUBLIC_UNSPLASH_KEY;
    const apiKey = process.env.NEXT_PUBLIC_WEATHER_KEY;
    const unsplashURL = `https://api.unsplash.com/photos/random`;
@@ -52,18 +52,18 @@ export default function Home() {
       const lat = position.coords.latitude;
       const lon = position.coords.longitude;
       const locationURL = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`;
-      const testURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+      //const testURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
 
       try {
          const { data } = await axios(locationURL);
          setWeatherData(data);
          const cityObject = createCityObject(data);
          setCityList([cityObject, ...cityList]);
-         setStatus("waiting");
-         const tester = await axios(testURL);
+         // setStatus("waiting");
+         //const tester = await axios(testURL);
          getImage(data.weather[0].main);
       } catch {
-         setStatus("error");
+         // setStatus("error");
       }
    };
 
@@ -76,12 +76,12 @@ export default function Home() {
          setCityList([cityObject, ...cityList]);
          getImage(data.weather[0].main);
       } catch {
-         setStatus("error");
+         //  setStatus("error");
       }
    };
 
    const getLocation = () => {
-      setStatus("loading");
+      // setStatus("loading");
       navigator.geolocation.getCurrentPosition((position) => {
          getWeatherData(position);
       });
