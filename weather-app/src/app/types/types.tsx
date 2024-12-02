@@ -1,4 +1,4 @@
-export interface Weather {
+export type Weather = {
    coord: Coord;
    weather: WeatherElement[];
    base: string;
@@ -13,18 +13,18 @@ export interface Weather {
    id: number;
    name: string;
    cod: number;
-}
+};
 
-export interface Clouds {
+export type Clouds = {
    all: number;
-}
+};
 
-export interface Coord {
+export type Coord = {
    lon: number;
    lat: number;
-}
+};
 
-export interface Main {
+export type Main = {
    temp: number;
    feels_like: number;
    temp_min: number;
@@ -33,32 +33,32 @@ export interface Main {
    humidity: number;
    sea_level: number;
    grnd_level: number;
-}
+};
 
-export interface Snow {
+export type Snow = {
    "1h": number;
-}
+};
 
-export interface Sys {
+export type Sys = {
    type: number;
    id: number;
    country: string;
    sunrise: number;
    sunset: number;
-}
+};
 
-export interface WeatherElement {
+export type WeatherElement = {
    id: number;
    main: string;
    description: string;
    icon: string;
-}
+};
 
-export interface Wind {
+export type Wind = {
    speed: number;
    deg: number;
    gust: number;
-}
+};
 
 export type City = {
    name: string;
